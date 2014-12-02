@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class OiMundoBean {
 	private String nome;
+	private String atual;
 	
 	public String getHoraAtual(){
 		
