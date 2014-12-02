@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Listagem</title>
+</h:head>
+<h:body>
+
+	<h:form>
+		<h:panelGrid columns="5">
+			<h:outputText value="Média Móvel"></h:outputText>
+			<p:selectOneButton value="#{argentumBean.mediaMovel}">
+				<f:selectItem itemLabel="Simples" itemValue="MediaMovelSimples"></f:selectItem>
+				<f:selectItem itemLabel="Ponderada" itemValue="MediaMovelPonderada"></f:selectItem>
+			</p:selectOneButton>
+			<h:outputText value="Ind. Base"></h:outputText>
+			<p:selectOneButton value="#{argentumBean.indicadorBase}">
+				<f:selectItem itemLabel="Abertura" itemValue="IndicadorAbertura"></f:selectItem>
+				<f:selectItem itemLabel="Fechamento" itemValue="IndicadorFechamento"></f:selectItem>
+			</p:selectOneButton>
+			<h:commandButton value="Gerar Gráfico" update=":grafico" action="#{argentumBean.geraGrafico}"/>
+		</h:panelGrid>
+	</h:form>
+
+	<p:lineChart value="#{argentumBean.modelo}" id="grafico"
+		legendPosition="w" title="Indicadores"></p:lineChart>
+
+	<h:form id="listaNegociacao">
+		<p:dataTable var="negociacao" value="#{argentumBean.negociacoes}"
+			paginator="true" rows="15">
+			<f:facet name="header">
+				<h:outputText value="Lista de Negociações" />
+			</f:facet>
+			<p:column headerText="Preço" sortBy="#{negociacao.preco}">
+				<h:outputText value="#{negociacao.preco}" />
+			</p:column>
+			<p:column headerText="Quantidade" sortBy="#{negociacao.quantidade}">
+				<h:outputText value="#{negociacao.quantidade}" />
+			</p:column>
+			<p:column headerText="Volume" sortBy="#{negociacao.volume}">
+				<h:outputText value="#{negociacao.volume}" />
+			</p:column>
+			<p:column headerText="Data" sortBy="#{negociacao.data}">
+				<h:outputText value="#{negociacao.data.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<f:facet name="footer">
+        		Total de  #{fn:length(argentumBean.negociacoes)} negociações.
+    		</f:facet>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
